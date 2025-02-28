@@ -1,101 +1,141 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Corruptor } from '@/types/types';
+import CorruptorTable from '@/components/CorruptorTable';
+import Navbar from '@/components/Navbar';
+
+// Sample data for corruptors
+const corruptorData: Corruptor[] = [
+  {
+    id: '1',
+    name: 'Riva Siahaan and Yoki Firnandi',
+    amountStolen: 195000000000000,
+    currency: 'IDR',
+    aspect: 'Oil and Shipping',
+    summary: "Indonesia arrested seven executives, including Pertamina's CEO Riva Siahaan and Pertamina International Shipping's CEO Yoki Firnandi, in a Rp195 trillion corruption case. The scheme involved rejecting domestic oil supplies, manipulating prices, and importing lower-quality oil. The alleged corruption occurred between 2018 and 2023.",
+    previousRank: 2,
+  },
+  {
+    id: '2',
+    name: 'Surya Darmadi',
+    amountStolen: 87000000000000,
+    currency: 'IDR',
+    aspect: 'Oil Palm Plantation',
+    summary: "Surya Darmadi's company PT Duta Palma Group was involved in a corruption case related to oil palm plantations with estimated losses of Rp87 trillion.",
+    previousRank: 1,
+  },
+  {
+    id: '3',
+    name: 'Honggo Wendratno',
+    amountStolen: 42400000000000,
+    currency: 'IDR',
+    aspect: 'Petrochemical Industry',
+    summary: "Honggo Wendratno, former President Director of PT Trans-Pacific Petrochemical Indotama, was found guilty in a corruption case involving Rp42.4 trillion. He escaped and remained a fugitive until recently.",
+    previousRank: 3,
+  },
+  {
+    id: '4',
+    name: 'Heru Hidayat and others',
+    amountStolen: 23700000000000,
+    currency: 'IDR',
+    aspect: 'Insurance',
+    summary: "Eight suspects, including Heru Hidayat, were implicated in the PT Asabri corruption case, which involved Rp23.7 trillion in losses from 2012 to 2019.",
+    previousRank: 4,
+  },
+  {
+    id: '5',
+    name: 'Benny Tjokrosaputro and others',
+    amountStolen: 16800000000000,
+    currency: 'IDR',
+    aspect: 'Insurance and Investment',
+    summary: "Six individuals, including Benny Tjokrosaputro, were sentenced for their roles in the Jiwasraya corruption case, which involved Rp16.8 trillion in losses from investment schemes.",
+    previousRank: 5,
+  },
+  {
+    id: '6',
+    name: 'RJ Lino',
+    amountStolen: 7000000000000,
+    currency: 'IDR',
+    aspect: 'Port Management',
+    summary: "Former PT Pelindo II President Director RJ Lino was suspected of corruption in the procurement of cranes, resulting in Rp7 trillion in losses.",
+    previousRank: 7,
+  },
+  {
+    id: '7',
+    name: 'Former Antam officials',
+    amountStolen: 3310000000000,
+    currency: 'IDR',
+    aspect: 'Mining',
+    summary: "Six former officials of state-owned mining company Antam were charged with corruption involving over 100 tonnes of gold causing Rp3.31 trillion in losses.",
+    previousRank: 8,
+  },
+  {
+    id: '8',
+    name: 'Setya Novanto and others',
+    amountStolen: 2300000000000,
+    currency: 'IDR',
+    aspect: 'Identity Card Project',
+    summary: "The e-KTP corruption case involved several high-profile figures, including Setya Novanto, with estimated losses of Rp2.3 trillion.",
+    previousRank: 6,
+  },
+  {
+    id: '9',
+    name: 'Angelina Sondakh and others',
+    amountStolen: 706000000000,
+    currency: 'IDR',
+    aspect: 'Sports Infrastructure',
+    summary: "The Hambalang project corruption case involved suspects like Angelina Sondakh and Anas Urbaningrum, with losses estimated at Rp706 billion due to funding issues.",
+    previousRank: 9,
+  },
+  {
+    id: '10',
+    name: 'Juliari Batubara',
+    amountStolen: 14590000000,
+    currency: 'IDR',
+    aspect: 'Social Assistance Funds',
+    summary: "Former Minister of Social Affairs Juliari Batubara was found guilty of bribery in COVID-19 social assistance funds. He was sentenced to 12 years in prison for his role in the corruption scheme.",
+    previousRank: 10,
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Initialize theme from localStorage or system preference
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    } else {
+      setIsDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+  }, []);
+
+  // Update theme in localStorage and apply changes
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+  };
+
+  return (
+    <>
+      <Navbar isDarkMode={isDarkMode} onToggleTheme={toggleTheme} />
+      <main className={`min-h-screen pt-20 p-4 sm:p-8 ${
+        isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'
+      }`}>
+        <h1 className="text-2xl sm:text-4xl font-bold text-center mb-8">
+          Indonesian Corruptor Tier List
+        </h1>
+
+        <div className="max-w-6xl mx-auto">
+          <CorruptorTable 
+            data={corruptorData.sort((a, b) => b.amountStolen - a.amountStolen)} 
+            isDarkMode={isDarkMode}
+          />
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
